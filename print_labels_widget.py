@@ -3,6 +3,7 @@ from PySide6.QtWidgets import (
     QComboBox, QPushButton, QGroupBox
 )
 from PySide6.QtCore import Qt
+from PySide6.QtGui import QIcon
 from PIL import Image, ImageDraw, ImageFont, ImageWin
 import qrcode
 import win32print
@@ -55,7 +56,7 @@ def create_label_image(code_text, location_type):
     R, B, N, L = format_loc_code(code_text, location_type)
 
     loc_text = f"{R} - {B} - {N} - {L}"
-    x_text, y_text = 20, 10
+    x_text, y_text = 45, 30
     w, h = get_text_size(draw, loc_text, font_medium)
 
     # Desenha a caixa (retângulo) com margem
@@ -67,15 +68,15 @@ def create_label_image(code_text, location_type):
     draw.text((x_text, y_text), loc_text, font=font_medium, fill=0)
 
     last_num_text = N + ' ' + L
-    last_num_x = 20
-    last_num_y = 70
+    last_num_x = 45
+    last_num_y = 85
     draw.text((last_num_x, last_num_y), last_num_text, font=font_big, fill=0)
 
     qr = qrcode.make(code_text)
     qr_size = 100
     qr = qr.resize((qr_size, qr_size))
-    qr_x = 470
-    qr_y = 5
+    qr_x = 490
+    qr_y = 30
     img.paste(qr, (qr_x, qr_y))
 
     return img
@@ -101,6 +102,7 @@ class LabelWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Gerador de Etiquetas")
+        self.setWindowIcon(QIcon("etiqueta.ico"))  
         self.setMinimumWidth(600)
         self.init_ui()
 
@@ -223,6 +225,7 @@ class LabelWindow(QWidget):
                 code_text = f"{R} {B}  {N}{L_value}"
 
             img = create_label_image(code_text, location_type=mode_text)
+            # img.show()
             print_image(img)
 
 

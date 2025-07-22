@@ -1,4 +1,4 @@
-style_window = """/* --- General Window Background --- */
+style_window = """
 QWidget {
     background-color: #f9fafb;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -6,7 +6,6 @@ QWidget {
     color: #2c3e50;
 }
 
-/* --- ComboBox --- */
 QComboBox {
     background-color: #ffffff;
     border: 2px solid #d1d9e6;
@@ -22,7 +21,7 @@ QComboBox:hover {
 }
 
 QComboBox:focus {
-    border-color: #1abc9c;
+    border-color: #298010;
     outline: none;
 }
 
@@ -36,19 +35,14 @@ QComboBox::drop-down {
     background-color: #eaf2f8;
 }
 
-QComboBox::down-arrow {
-    image: url(data:image/svg+xml;utf8,<svg fill='%233498db' height='12' viewBox='0 0 24 24' width='12' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>);
-}
 
-/* --- QPushButton --- */
 QPushButton {
-    background-color: #1abc9c;
+    background-color: #298010;
     border: none;
     border-radius: 10px;
     color: white;
     padding: 8px 25px;
     font-weight: 600;
-    transition: background-color 0.3s ease;
 }
 
 QPushButton:hover {
@@ -59,12 +53,11 @@ QPushButton:pressed {
     background-color: #148f77;
 }
 
-/* --- QLabel --- */
 QLabel {
     color: #34495e;
 }
 
-/* --- QGroupBox --- */
+
 QGroupBox {
     border: 2px solid #d1d9e6;
     border-radius: 10px;
@@ -104,7 +97,6 @@ QScrollBar::sub-line:vertical {
     height: 0px;
 }
 
-/* --- Tooltip --- */
 QToolTip {
     background-color: #1abc9c;
     color: white;
