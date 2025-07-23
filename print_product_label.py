@@ -13,12 +13,15 @@ def get_text_size(draw, text, font):
     bbox = draw.textbbox((0, 0), text, font=font)
     return bbox[2] - bbox[0], bbox[3] - bbox[1]
 
-def create_label_image(product_code, description, barcode_number, lote, quantity, unit, logo_path):
+def create_label_image(product_code, description, barcode_number, lote, quantity, unit):
     DPI = 203
     mm_to_inch = 25.4
     width_mm = 40
     height_mm = 40
-
+    
+    path = os.path.dirname(__file__)
+    logo_path = os.path.join(path, 'logo_dbtruck.png')
+    
     width_px = int(DPI * width_mm / mm_to_inch)
     height_px = int(DPI * height_mm / mm_to_inch)
 
@@ -53,9 +56,9 @@ def create_label_image(product_code, description, barcode_number, lote, quantity
     barcode_writer_options = {
     'module_width': 0.2,
     'module_height': 6.0,
-    'font_size': 7,
+    'font_size': 5,
     'text_distance': 3,
-    'quiet_zone': 5,
+    'quiet_zone': 2,
     'write_text': True,
     'background': 'white',
     'foreground': 'black'
@@ -166,6 +169,23 @@ def print_image(img):
     hDC.EndDoc()
     hDC.DeleteDC()
 
+def print_labels_in_batch(img, copies=1):
+    printer_name = win32print.GetDefaultPrinter()
+    hDC = win32ui.CreateDC()
+    hDC.CreatePrinterDC(printer_name)
+
+    hDC.StartDoc("Etiquetas")
+
+    for _ in range(copies):
+        hDC.StartPage()
+        dib = ImageWin.Dib(img)
+        dib.draw(hDC.GetHandleOutput(), (0, 0, img.width, img.height))
+        hDC.EndPage()
+
+    hDC.EndDoc()
+    hDC.DeleteDC()
+
+
 if __name__ == "__main__":
     product_code = "FIX18  "
     description = "ALTO FALANTE 6X9 QUADRIAXIAL PAR HURRICANE (180W RMS PAR)"
@@ -173,10 +193,9 @@ if __name__ == "__main__":
     lote = "22/07/2025"
     quantity = 1
     unit = "PR"
-    path = os.path.dirname(__file__)
-    
-    logo_path = os.path.join(path, 'logo_dbtruck.png')
 
-    etiqueta_img = create_label_image(product_code, description, barcode_number, lote, quantity, unit, logo_path)
+
+    etiqueta_img = create_label_image(product_code, description, barcode_number, lote, quantity, unit)
     etiqueta_img.show()
-    print_image(etiqueta_img)
+    print_labels_in_batch(etiqueta_img, 3)
+    
